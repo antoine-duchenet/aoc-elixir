@@ -1,5 +1,3 @@
-import Input
-
 defmodule Vec3 do
   def x({x, _, _}), do: x
   def y({_, y, _}), do: y
@@ -36,6 +34,8 @@ defmodule Snap do
 end
 
 defmodule Y2023.D24 do
+  use Day, input: "2023/24", part1: ~c"l", part2: ~c"l"
+
   @min_position 200_000_000_000_000
   @max_position 400_000_000_000_000
   @position_boundary 999_999_999_999_999
@@ -150,14 +150,6 @@ defmodule Y2023.D24 do
     |> Utils.splitrim(",")
     |> Enum.map(&String.to_integer/1)
     |> List.to_tuple()
-  end
-
-  def bench1() do
-    Benchmark.mesure_milliseconds(fn -> part1(~i[2023/24]l) end)
-  end
-
-  def bench2() do
-    Benchmark.mesure_milliseconds(fn -> part2(~i[2023/24]l) end)
   end
 end
 

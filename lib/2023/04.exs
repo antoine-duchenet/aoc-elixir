@@ -1,6 +1,6 @@
-import Input
-
 defmodule Y2023.D4 do
+  use Day, input: "2023/04", part1: ~c"s", part2: ~c"s"
+
   def part1(input_stream) do
     input_stream
     |> Stream.map(&count_winning/1)
@@ -27,6 +27,4 @@ defmodule Y2023.D4 do
   end
 end
 
-~i[2023/04]s
-|> Y2023.D4.part2()
-|> dbg
+Y2023.D4.bench2()

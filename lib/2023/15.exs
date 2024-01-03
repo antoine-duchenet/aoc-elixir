@@ -1,6 +1,6 @@
-import Input
-
 defmodule Y2023.D15 do
+  use Day, input: "2023/15", part1: ~c"w", part2: ~c"w"
+
   def part1(input) do
     input
     |> parse_input()
@@ -68,14 +68,6 @@ defmodule Y2023.D15 do
   defp parse_input(input) do
     Utils.splitrim(input, ",")
   end
-
-  def run() do
-    part2(~i[2023/15]w)
-  end
-
-  def bench() do
-    Benchmark.mesure_milliseconds(&run/0)
-  end
 end
 
-Y2023.D15.bench()
+Y2023.D15.bench2()

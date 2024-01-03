@@ -1,6 +1,8 @@
-import Input
-
 defmodule Y2023.D12 do
+  use Day, input: "2023/12", part1: ~c"s", part2: ~c"s"
+
+  @mult 5
+
   defp part1(input) do
     input
     |> Stream.map(&parse_line/1)
@@ -8,13 +10,13 @@ defmodule Y2023.D12 do
     |> Enum.sum()
   end
 
-  defp part2(input, mult) do
+  defp part2(input) do
     input
     |> Stream.map(&parse_line/1)
     |> Stream.map(
       &{
-        elem(&1, 0) |> List.duplicate(mult) |> Enum.join("?"),
-        elem(&1, 1) |> List.duplicate(mult) |> List.flatten()
+        elem(&1, 0) |> List.duplicate(@mult) |> Enum.join("?"),
+        elem(&1, 1) |> List.duplicate(@mult) |> List.flatten()
       }
     )
     |> Stream.map(&how_many?(elem(&1, 0), ".", elem(&1, 1)))
@@ -60,14 +62,6 @@ defmodule Y2023.D12 do
       |> Enum.map(&String.to_integer/1)
 
     {springs, counts}
-  end
-
-  def bench1() do
-    Benchmark.mesure_milliseconds(fn -> part1(~i[2023/12]s) end)
-  end
-
-  def bench2(mult \\ 5) do
-    Benchmark.mesure_milliseconds(fn -> part2(~i[2023/12]s, mult) end)
   end
 end
 

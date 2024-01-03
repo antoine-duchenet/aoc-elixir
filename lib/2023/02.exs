@@ -1,5 +1,3 @@
-import Input
-
 defmodule Draw do
   defstruct green: 0, red: 0, blue: 0
 
@@ -47,6 +45,8 @@ defmodule Game do
 end
 
 defmodule Y2023.D2 do
+  use Day, input: "2023/02", part1: ~c"s", part2: ~c"s"
+
   @max_draw %Draw{red: 12, green: 13, blue: 14}
 
   defp part1(input_stream) do
@@ -62,14 +62,6 @@ defmodule Y2023.D2 do
     |> Stream.map(&Game.from_string/1)
     |> Stream.map(&Game.power/1)
     |> Enum.sum()
-  end
-
-  def bench1() do
-    Benchmark.mesure_milliseconds(fn -> part1(~i[2023/02]s) end)
-  end
-
-  def bench2() do
-    Benchmark.mesure_milliseconds(fn -> part2(~i[2023/02]s) end)
   end
 end
 

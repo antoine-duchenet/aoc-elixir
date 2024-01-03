@@ -11,21 +11,7 @@ defmodule Input do
     |> Enum.to_list()
   end
 
-  def sigil_i(day, ~c"s") do
-    stream(day)
-  end
-
-  def sigil_i(day, ~c"l") do
-    list(day)
-  end
-
-  def sigil_i(day, ~c"w") do
-    day
-    |> list()
-    |> Enum.join("\n")
-  end
-
-  def sigil_i(day, ~c"c") do
+  def chunk(day) do
     day
     |> list()
     |> Enum.chunk_while(
@@ -39,5 +25,27 @@ defmodule Input do
         acc -> {:cont, acc, []}
       end
     )
+  end
+
+  def whole(day) do
+    day
+    |> list()
+    |> Enum.join("\n")
+  end
+
+  def sigil_i(day, ~c"s") do
+    stream(day)
+  end
+
+  def sigil_i(day, ~c"l") do
+    list(day)
+  end
+
+  def sigil_i(day, ~c"w") do
+    whole(day)
+  end
+
+  def sigil_i(day, ~c"c") do
+    chunk(day)
   end
 end

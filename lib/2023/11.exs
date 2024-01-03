@@ -1,6 +1,6 @@
-import Input
-
 defmodule Y2023.D11 do
+  use Day, input: "2023/11", part1: ~c"l", part2: ~c"l"
+
   def part1(input_list) do
     partX(input_list, 2)
   end
@@ -59,6 +59,4 @@ defmodule Y2023.D11 do
   defp parse_tile("."), do: :void
 end
 
-~i[2023/11]l
-|> Y2023.D11.part2()
-|> dbg
+Y2023.D11.bench2()

@@ -1,6 +1,6 @@
-import Input
-
 defmodule Y2023.D9 do
+  use Day, input: "2023/09", part1: ~c"s", part2: ~c"s"
+
   def part1(input_stream) do
     partX(input_stream, &List.last/1, &Kernel.+/2)
   end
@@ -43,6 +43,4 @@ defmodule Y2023.D9 do
   end
 end
 
-~i[2023/09]s
-|> Y2023.D9.part2()
-|> dbg
+Y2023.D9.bench2()

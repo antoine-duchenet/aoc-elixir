@@ -1,6 +1,6 @@
-import Input
-
 defmodule Y2023.D5 do
+  use Day, input: "2023/05", part1: ~c"l", part2: ~c"l"
+
   def part1(input_lines) do
     [[se], se2so, so2fe, fe2wa, wa2li, li2te, te2hu, hu2lo] = parse_input_lines(input_lines)
 
@@ -30,7 +30,6 @@ defmodule Y2023.D5 do
     |> apply_map(hu2lo)
     |> List.first()
     |> elem(0)
-    |> dbg
   end
 
   defp parse_input_lines(input_lines) do
@@ -116,6 +115,4 @@ defmodule Y2023.D5 do
   end
 end
 
-~i[2023/05]l
-|> Y2023.D5.part2()
-|> IO.puts()
+Y2023.D5.bench2()

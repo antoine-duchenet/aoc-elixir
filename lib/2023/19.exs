@@ -1,6 +1,6 @@
-import Input
-
 defmodule Y2023.D19 do
+  use Day, input: "2023/19", part1: ~c"c", part2: ~c"c"
+
   def part1(input) do
     {map, parts} = parse_input(input)
 
@@ -127,14 +127,6 @@ defmodule Y2023.D19 do
     |> Enum.map(fn [field, value] -> {field, String.to_integer(value)} end)
     |> Map.new()
   end
-
-  def run() do
-    part2(~i[2023/19]c)
-  end
-
-  def bench() do
-    Benchmark.mesure_milliseconds(&run/0)
-  end
 end
 
-Y2023.D19.bench()
+Y2023.D19.bench2()

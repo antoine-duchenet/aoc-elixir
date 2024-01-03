@@ -1,6 +1,6 @@
-import Input
-
 defmodule Y2023.D17 do
+  use Day, input: "2023/17", part1: ~c"l", part2: ~c"l"
+
   def part1(input) do
     {map, {w, h}} = parse_input(input)
 
@@ -206,14 +206,6 @@ defmodule Y2023.D17 do
     |> Utils.splitrim("")
     |> Enum.map(&String.to_integer(&1))
   end
-
-  def run() do
-    part2(~i[2023/17]l)
-  end
-
-  def bench() do
-    Benchmark.mesure_milliseconds(&run/0)
-  end
 end
 
-Y2023.D17.bench()
+Y2023.D17.bench2()

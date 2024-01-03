@@ -1,6 +1,6 @@
-import Input
-
 defmodule Y2023.D8 do
+  use Day, input: "2023/08", part1: ~c"l", part2: ~c"l"
+
   def part1(input_list) do
     {steps, map} = parse_input(input_list)
 
@@ -67,6 +67,4 @@ defmodule Y2023.D8 do
   defp to_index("R"), do: 1
 end
 
-~i[2023/08]l
-|> Y2023.D8.part2()
-|> dbg
+Y2023.D8.bench2()

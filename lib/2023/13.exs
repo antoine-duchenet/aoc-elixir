@@ -1,6 +1,6 @@
-import Input
-
 defmodule Y2023.D13 do
+  use Day, input: "2023/13", part1: ~c"s", part2: ~c"s"
+
   def part1(input) do
     input
     |> parse_input()
@@ -111,14 +111,6 @@ defmodule Y2023.D13 do
 
     Enum.zip(as_rows, as_cols)
   end
-
-  def run() do
-    part2(~i[2023/13]s)
-  end
-
-  def bench() do
-    Benchmark.mesure_milliseconds(&run/0)
-  end
 end
 
-Y2023.D13.bench()
+Y2023.D13.bench2()

@@ -1,6 +1,6 @@
-import Input
-
 defmodule Y2023.D7 do
+  use Day, input: "2023/07", part1: ~c"s", part2: ~c"s"
+
   @kinds1 Utils.splitrim("23456789TJQKA", "")
   @kinds2 Utils.splitrim("J23456789TQKA", "")
 
@@ -10,7 +10,6 @@ defmodule Y2023.D7 do
     |> Stream.map(fn hand -> with_strength(hand, &classifier1/1, @kinds1) end)
     |> rank()
     |> score()
-    |> dbg
   end
 
   def part2(input_stream) do
@@ -19,7 +18,6 @@ defmodule Y2023.D7 do
     |> Stream.map(fn hand -> with_strength(hand, &classifier2/1, @kinds2) end)
     |> rank()
     |> score()
-    |> dbg
   end
 
   defp with_strength({hand, bid}, classifier, kinds) do
@@ -68,28 +66,27 @@ defmodule Y2023.D7 do
 
     jokers_count = Enum.count(hand) - Enum.count(no_jokers)
 
-    type =
-      case {grouped, jokers_count} do
-        {[[_], [_], [_], [_], [_]], 0} -> 0
-        {[[_, _], [_], [_], [_]], 0} -> 1
-        {[[_, _], [_, _], [_]], 0} -> 2
-        {[[_, _, _], [_], [_]], 0} -> 3
-        {[[_, _, _], [_, _]], 0} -> 4
-        {[[_, _, _, _], [_]], 0} -> 5
-        {[[_, _, _, _, _]], 0} -> 6
-        {[[_], [_], [_], [_]], 1} -> 1
-        {[[_, _], [_], [_]], 1} -> 3
-        {[[_, _], [_, _]], 1} -> 4
-        {[[_, _, _], [_]], 1} -> 5
-        {[[_, _, _, _]], 1} -> 6
-        {[[_], [_], [_]], 2} -> 3
-        {[[_, _], [_]], 2} -> 5
-        {[[_, _, _]], 2} -> 6
-        {[[_], [_]], 3} -> 5
-        {[[_, _]], 3} -> 6
-        {[[_]], 4} -> 6
-        {[], 5} -> 6
-      end
+    case {grouped, jokers_count} do
+      {[[_], [_], [_], [_], [_]], 0} -> 0
+      {[[_, _], [_], [_], [_]], 0} -> 1
+      {[[_, _], [_, _], [_]], 0} -> 2
+      {[[_, _, _], [_], [_]], 0} -> 3
+      {[[_, _, _], [_, _]], 0} -> 4
+      {[[_, _, _, _], [_]], 0} -> 5
+      {[[_, _, _, _, _]], 0} -> 6
+      {[[_], [_], [_], [_]], 1} -> 1
+      {[[_, _], [_], [_]], 1} -> 3
+      {[[_, _], [_, _]], 1} -> 4
+      {[[_, _, _], [_]], 1} -> 5
+      {[[_, _, _, _]], 1} -> 6
+      {[[_], [_], [_]], 2} -> 3
+      {[[_, _], [_]], 2} -> 5
+      {[[_, _, _]], 2} -> 6
+      {[[_], [_]], 3} -> 5
+      {[[_, _]], 3} -> 6
+      {[[_]], 4} -> 6
+      {[], 5} -> 6
+    end
   end
 
   defp parse_hands(stream) do
@@ -111,5 +108,4 @@ defmodule Y2023.D7 do
   end
 end
 
-~i[2023/07]s
-|> Y2023.D7.part2()
+Y2023.D7.bench2()
