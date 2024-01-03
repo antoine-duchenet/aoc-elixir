@@ -1,6 +1,6 @@
-import Input
-
 defmodule Y2023.D16 do
+  use Day, input: "2023/16", part1: ~c"l", part2: ~c"l"
+
   def part1(input) do
     {map, _} = parse_input(input)
 
@@ -67,14 +67,6 @@ defmodule Y2023.D16 do
 
     {Matrix.to_map(matrix), {width, height}}
   end
-
-  def run() do
-    part2(~i[2023/16]l)
-  end
-
-  def bench() do
-    Benchmark.mesure_milliseconds(&run/0)
-  end
 end
 
-Y2023.D16.bench()
+Y2023.D16.bench2()

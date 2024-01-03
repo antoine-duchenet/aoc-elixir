@@ -1,6 +1,6 @@
-import Input
-
 defmodule Y2023.D21 do
+  use Day, input: "2023/21", part1: ~c"l", part2: ~c"l"
+
   def part1(input) do
     {raw_map, _} = parse_input(input)
 
@@ -38,7 +38,7 @@ defmodule Y2023.D21 do
       end)
       |> Enum.sum()
 
-    dbg({odd, even, pink, green, res})
+    {odd, even, pink, green, res}
   end
 
   def part2(input) do
@@ -121,14 +121,6 @@ defmodule Y2023.D21 do
 
     {Matrix.to_map(matrix), size}
   end
-
-  def run() do
-    part2(~i[2023/21]l)
-  end
-
-  def bench() do
-    Benchmark.mesure_milliseconds(&run/0)
-  end
 end
 
-Y2023.D21.bench()
+Y2023.D21.bench2()

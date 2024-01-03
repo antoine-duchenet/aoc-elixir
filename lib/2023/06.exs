@@ -1,6 +1,6 @@
-import Input
-
 defmodule Y2023.D6 do
+  use Day, input: "2023/06", part1: ~c"l", part2: ~c"l"
+
   def part1(input_lines) do
     input_lines
     |> Enum.map(&Utils.splitrim(&1, ":"))
@@ -9,7 +9,6 @@ defmodule Y2023.D6 do
     |> Enum.map(fn {t, d} -> for p <- 0..t, p * (t - p) > d, do: {p, t - p} end)
     |> Enum.map(&Enum.count/1)
     |> Enum.reduce(1, fn item, acc -> acc * item end)
-    |> dbg
   end
 
   def part2(input_lines) do
@@ -26,7 +25,6 @@ defmodule Y2023.D6 do
       fn _ -> :ok end
     )
     |> Enum.at(0)
-    |> dbg
   end
 
   defp split_integers(string) do
@@ -43,6 +41,4 @@ defmodule Y2023.D6 do
   end
 end
 
-~i[2023/06]l
-|> Y2023.D6.part2()
-|> dbg
+Y2023.D6.bench2()

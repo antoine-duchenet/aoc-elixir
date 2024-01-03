@@ -1,6 +1,6 @@
-import Input
-
 defmodule Y2023.D25 do
+  use Day, input: "2023/25", part1: ~c"l", part2: nil
+
   def part1(input) do
     input
     |> parse_input()
@@ -58,10 +58,6 @@ defmodule Y2023.D25 do
     [from, tos] = Utils.splitrim(line, ":")
 
     for to <- Utils.splitrim(tos, " "), reduce: [], do: (acc -> [{from, to} | acc])
-  end
-
-  def bench1() do
-    Benchmark.mesure_milliseconds(fn -> part1(~i[2023/25]l) end)
   end
 end
 

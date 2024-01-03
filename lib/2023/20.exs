@@ -1,6 +1,6 @@
-import Input
-
 defmodule Y2023.D20 do
+  use Day, input: "2023/20", part1: ~c"l", part2: ~c"l"
+
   def part1(input) do
     map = parse_input(input)
 
@@ -140,14 +140,6 @@ defmodule Y2023.D20 do
         {name, {name, :cj, %{}, to}}
     end)
   end
-
-  def run() do
-    part2(~i[2023/20]l)
-  end
-
-  def bench() do
-    Benchmark.mesure_milliseconds(&run/0)
-  end
 end
 
-Y2023.D20.bench()
+Y2023.D20.bench2()

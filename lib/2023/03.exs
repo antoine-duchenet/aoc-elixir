@@ -1,6 +1,6 @@
-import Input
-
 defmodule Y2023.D3 do
+  use Day, input: "2023/03", part1: ~c"l", part2: ~c"l"
+
   @symbol_regex ~r/[^\d\.]/
   @number_regex ~r/\d+/
 
@@ -74,14 +74,6 @@ defmodule Y2023.D3 do
 
   defp is_symbol_location?({x, y}, symbols) do
     Enum.any?(symbols, fn {x_symbol, y_symbol, _, _} -> x == x_symbol and y == y_symbol end)
-  end
-
-  def bench1() do
-    Benchmark.mesure_milliseconds(fn -> part1(~i[2023/03]l) end)
-  end
-
-  def bench2() do
-    Benchmark.mesure_milliseconds(fn -> part2(~i[2023/03]l) end)
   end
 end
 

@@ -1,6 +1,6 @@
-import Input
-
 defmodule Y2023.D23 do
+  use Day, input: "2023/23", part1: ~c"l", part2: ~c"l"
+
   defp part1(input) do
     {map, start, target} = parse_input(input)
 
@@ -100,14 +100,6 @@ defmodule Y2023.D23 do
     tx = matrix |> Enum.at(ty) |> Enum.with_index() |> Enum.find(&(elem(&1, 0) == ".")) |> elem(1)
 
     {Matrix.to_map(matrix), {sx, sy}, {tx, ty}}
-  end
-
-  def bench1() do
-    Benchmark.mesure_milliseconds(fn -> part1(~i[2023/23]l) end)
-  end
-
-  def bench2() do
-    Benchmark.mesure_milliseconds(fn -> part2(~i[2023/23]l) end)
   end
 end
 

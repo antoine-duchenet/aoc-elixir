@@ -1,6 +1,6 @@
-import Input
-
 defmodule Y2023.D10 do
+  use Day, input: "2023/10", part1: ~c"l", part2: ~c"l"
+
   @start :start
   @ground []
   @ns [:n, :s]
@@ -158,6 +158,4 @@ defmodule Y2023.D10 do
   defp parse_tile(_), do: @ground
 end
 
-~i[2023/10]l
-|> Y2023.D10.part2()
-|> dbg
+Y2023.D10.bench2()
