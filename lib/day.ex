@@ -9,7 +9,12 @@ defmodule Day do
         def bench1() do
           source = unquote(input)
           flags = unquote(part1)
-          Benchmark.mesure_milliseconds(fn -> part1(Input.sigil_i(source, flags)) end)
+
+          Benchmark.mesure_milliseconds(fn ->
+            source
+            |> Input.sigil_i(flags)
+            |> part1()
+          end)
         end
       end
 
@@ -17,7 +22,12 @@ defmodule Day do
         def bench2() do
           source = unquote(input)
           flags = unquote(part2)
-          Benchmark.mesure_milliseconds(fn -> part2(Input.sigil_i(source, flags)) end)
+
+          Benchmark.mesure_milliseconds(fn ->
+            source
+            |> Input.sigil_i(flags)
+            |> part2()
+          end)
         end
       end
     end
