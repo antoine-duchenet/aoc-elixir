@@ -22,18 +22,18 @@ defmodule Y2023.D08 do
     |> Math.lcm()
   end
 
-  defp walk([], steps, map, count, location, done?) do
-    walk(steps, steps, map, count, location, done?)
+  defp walk([], steps, map, distance, location, done?) do
+    walk(steps, steps, map, distance, location, done?)
   end
 
-  defp walk([next | rest], steps, map, count, location, done?) do
+  defp walk([next | rest], steps, map, distance, location, done?) do
     if done?.(location) do
-      count
+      distance
     else
       map
       |> Map.get(location)
       |> elem(next)
-      |> then(&walk(rest, steps, map, count + 1, &1, done?))
+      |> then(&walk(rest, steps, map, distance + 1, &1, done?))
     end
   end
 
