@@ -33,19 +33,15 @@ defmodule Input do
     |> Enum.join("\n")
   end
 
-  def sigil_i(day, ~c"s") do
-    stream(day)
+  def grid(day) do
+    day
+    |> list()
+    |> Enum.map(&Utils.splitrim(&1, ""))
   end
 
-  def sigil_i(day, ~c"l") do
-    list(day)
-  end
-
-  def sigil_i(day, ~c"w") do
-    whole(day)
-  end
-
-  def sigil_i(day, ~c"c") do
-    chunk(day)
-  end
+  def sigil_i(day, ~c"s"), do: stream(day)
+  def sigil_i(day, ~c"l"), do: list(day)
+  def sigil_i(day, ~c"w"), do: whole(day)
+  def sigil_i(day, ~c"c"), do: chunk(day)
+  def sigil_i(day, ~c"g"), do: grid(day)
 end
