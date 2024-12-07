@@ -1,4 +1,4 @@
-defmodule Y2023.D1 do
+defmodule Y2023.D01 do
   use Day, input: "2023/01", part1: ~c"l", part2: ~c"l"
 
   @pattern1 "^.*(?<dig>\\d).*$"
@@ -43,4 +43,4 @@ defmodule Y2023.D1 do
   defp to_digit2(other), do: String.to_integer(other)
 end
 
-Y2023.D1.bench1()
+Y2023.D01.bench1()

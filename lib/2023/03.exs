@@ -1,4 +1,4 @@
-defmodule Y2023.D3 do
+defmodule Y2023.D03 do
   use Day, input: "2023/03", part1: ~c"l", part2: ~c"l"
 
   @symbol_regex ~r/[^\d\.]/
@@ -77,4 +77,4 @@ defmodule Y2023.D3 do
   end
 end
 
-Y2023.D3.bench2()
+Y2023.D03.bench2()

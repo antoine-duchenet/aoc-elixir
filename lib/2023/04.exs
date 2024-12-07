@@ -1,4 +1,4 @@
-defmodule Y2023.D4 do
+defmodule Y2023.D04 do
   use Day, input: "2023/04", part1: ~c"s", part2: ~c"s"
 
   def part1(input_stream) do
@@ -27,4 +27,4 @@ defmodule Y2023.D4 do
   end
 end
 
-Y2023.D4.bench2()
+Y2023.D04.bench2()

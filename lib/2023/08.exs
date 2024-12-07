@@ -1,4 +1,4 @@
-defmodule Y2023.D8 do
+defmodule Y2023.D08 do
   use Day, input: "2023/08", part1: ~c"l", part2: ~c"l"
 
   def part1(input_list) do
@@ -67,4 +67,4 @@ defmodule Y2023.D8 do
   defp to_index("R"), do: 1
 end
 
-Y2023.D8.bench2()
+Y2023.D08.bench2()

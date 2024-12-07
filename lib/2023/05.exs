@@ -1,4 +1,4 @@
-defmodule Y2023.D5 do
+defmodule Y2023.D05 do
   use Day, input: "2023/05", part1: ~c"l", part2: ~c"l"
 
   def part1(input_lines) do
@@ -115,4 +115,4 @@ defmodule Y2023.D5 do
   end
 end
 
-Y2023.D5.bench2()
+Y2023.D05.bench2()

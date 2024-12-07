@@ -44,7 +44,7 @@ defmodule Game do
   end
 end
 
-defmodule Y2023.D2 do
+defmodule Y2023.D02 do
   use Day, input: "2023/02", part1: ~c"s", part2: ~c"s"
 
   @max_draw %Draw{red: 12, green: 13, blue: 14}
@@ -65,4 +65,4 @@ defmodule Y2023.D2 do
   end
 end
 
-Y2023.D2.bench2()
+Y2023.D02.bench2()

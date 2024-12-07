@@ -1,4 +1,4 @@
-defmodule Y2023.D7 do
+defmodule Y2023.D07 do
   use Day, input: "2023/07", part1: ~c"s", part2: ~c"s"
 
   @kinds1 Utils.splitrim("23456789TJQKA", "")
@@ -108,4 +108,4 @@ defmodule Y2023.D7 do
   end
 end
 
-Y2023.D7.bench2()
+Y2023.D07.bench2()
