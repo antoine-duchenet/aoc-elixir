@@ -25,5 +25,6 @@ aoc2023-*.tar
 # Temporary files, for example, from tests.
 /tmp/
 
-# The sandbox
-day99.*
+# The sandboxes
+lib/z
+99.*
