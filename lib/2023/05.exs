@@ -1,51 +1,200 @@
 defmodule Y2023.D05 do
-  use Day, input: "2023/05", part1: ~c"l", part2: ~c"l"
+  use Day, input: "2023/05.sample", part1: ~c"l", part2: ~c"l"
+
+  defmodule Span do
+    defstruct start: 0, ending: 0, offset: 0
+
+    def new(start, ending, offset \\ 0) do
+      %Span{start: start, ending: ending, offset: offset}
+    end
+
+    def from_seeds_input([start, length]), do: new(start, start + length)
+
+    def from_map_input([to_start, from_start, length]) do
+      new(from_start, from_start + length, to_start - from_start)
+    end
+
+    def start(%Span{start: start}), do: start
+    def ending(%Span{ending: ending}), do: ending
+    def offset(%Span{offset: offset}), do: offset
+
+    def matches_in?(%Span{} = span, value), do: value >= start(span) && value < ending(span)
+
+    def transform(%Span{} = span) do
+      new(start(span) + offset(span), ending(span) + offset(span), 0)
+    end
+
+    def transform(%Span{} = span, value), do: value + offset(span)
+
+    def pipe(%Span{} = span1, %Span{} = span2) do
+      cond do
+        Range.disjoint?(
+          (start(span1) + offset(span1))..(ending(span1) + offset(span1) - 1),
+          start(span2)..(ending(span2) - 1)
+        ) ->
+          nil
+
+        start(span1) + offset(span1) <= start(span2) and
+            ending(span1) + offset(span1) >= ending(span2) ->
+          new(
+            start(span2) - offset(span1),
+            ending(span2) - offset(span1),
+            offset(span1) + offset(span2)
+          )
+
+        start(span1) + offset(span1) >= start(span2) and
+            ending(span1) + offset(span1) <= ending(span2) ->
+          new(start(span1), ending(span1), offset(span1) + offset(span2))
+
+        start(span1) + offset(span1) <= start(span2) and
+            ending(span1) + offset(span1) <= ending(span2) ->
+          new(start(span2) - offset(span1), ending(span1), offset(span1) + offset(span2))
+
+        start(span1) + offset(span1) >= start(span2) and
+            ending(span1) + offset(span1) >= ending(span2) ->
+          new(start(span1), ending(span2) - offset(span1), offset(span1) + offset(span2))
+      end
+    end
+  end
+
+  defmodule Layer do
+    @min_u64 0
+    @max_u64 18_446_744_073_709_551_615
+
+    defstruct spans: []
+
+    def new(spans), do: %Layer{spans: spans}
+
+    def from_seeds_inputs(input) do
+      input
+      |> Enum.map(&Span.from_seeds_input/1)
+      |> new()
+    end
+
+    def from_map_inputs(input) do
+      input
+      |> Enum.map(&Span.from_map_input/1)
+      |> new()
+      |> passthrough(@min_u64, @max_u64)
+    end
+
+    def compose(%Layer{spans: spans1}, %Layer{spans: spans2}) do
+      spans1
+      |> Enum.flat_map(fn span ->
+        spans2
+        |> Enum.map(&Span.pipe(span, &1))
+        |> Enum.reject(&is_nil/1)
+      end)
+      |> new()
+    end
+
+    def transform(%Layer{spans: spans}) do
+      spans
+      |> Enum.map(&Span.transform/1)
+      |> new()
+    end
+
+    def transform(%Layer{spans: spans}, value) do
+      spans
+      |> Enum.find(%Span{}, &Span.matches_in?(&1, value))
+      |> Span.transform(value)
+    end
+
+    defp passthrough(%Layer{spans: spans}, in_min, in_max) do
+      [Span.new(in_min, in_min), Span.new(in_max, in_max) | spans]
+      |> Enum.sort_by(&Span.start/1)
+      |> Enum.chunk_every(2, 1, :discard)
+      |> Enum.flat_map(fn [span1, span2] ->
+        [span1, Span.new(Span.ending(span1), Span.start(span2), 0)]
+      end)
+      |> Enum.reject(fn span -> Span.start(span) == Span.ending(span) end)
+      |> new()
+    end
+
+    def min(%Layer{spans: spans}) do
+      spans
+      |> Enum.min_by(&Span.start/1)
+      |> Span.start()
+    end
+  end
 
   def part1(input_lines) do
-    [[se], se2so, so2fe, fe2wa, wa2li, li2te, te2hu, hu2lo] = parse_input_lines(input_lines)
+    [[seeds] | maps] = parse_input_lines(input_lines)
+    [map1, map2, map3, map4, map5, map6, map7] = Enum.map(maps, &Layer.from_map_inputs/1)
 
-    se
-    |> Enum.map(&find_in_map(&1, se2so))
-    |> Enum.map(&find_in_map(&1, so2fe))
-    |> Enum.map(&find_in_map(&1, fe2wa))
-    |> Enum.map(&find_in_map(&1, wa2li))
-    |> Enum.map(&find_in_map(&1, li2te))
-    |> Enum.map(&find_in_map(&1, te2hu))
-    |> Enum.map(&find_in_map(&1, hu2lo))
+    # seeds
+    # |> Enum.map(fn seed ->
+    #   seed
+    #   |> transform_via(map1)
+    #   |> transform_via(map2)
+    #   |> transform_via(map3)
+    #   |> transform_via(map4)
+    #   |> transform_via(map5)
+    #   |> transform_via(map6)
+    #   |> transform_via(map7)
+    # end)
+    # |> Enum.min()
+
+    seeds
+    |> Enum.map(&transform_via(&1, map1))
+    |> Enum.map(&transform_via(&1, map2))
+    |> Enum.map(&transform_via(&1, map3))
+    |> Enum.map(&transform_via(&1, map4))
+    |> Enum.map(&transform_via(&1, map5))
+    |> Enum.map(&transform_via(&1, map6))
+    |> Enum.map(&transform_via(&1, map7))
     |> Enum.min()
+    |> dbg
   end
 
   def part2(input_lines) do
-    [[se], se2so, so2fe, fe2wa, wa2li, li2te, te2hu, hu2lo] = parse_input_lines(input_lines)
+    [[seeds] | maps] = parse_input_lines(input_lines)
+    [map1, map2, map3, map4, map5, map6, map7] = Enum.map(maps, &Layer.from_map_inputs/1)
 
-    se
+    # seeds
+    # |> Enum.chunk_every(2)
+    # |> Layer.from_seeds_inputs()
+    # |> transform_via(map1)
+    # |> transform_via(map2)
+    # |> transform_via(map3)
+    # |> transform_via(map4)
+    # |> transform_via(map5)
+    # |> transform_via(map6)
+    # |> transform_via(map7)
+    # |> Layer.min()
+
+    seeds
     |> Enum.chunk_every(2)
-    |> Enum.map(&to_boundaries/1)
-    |> apply_map(se2so)
-    |> apply_map(so2fe)
-    |> apply_map(fe2wa)
-    |> apply_map(wa2li)
-    |> apply_map(li2te)
-    |> apply_map(te2hu)
-    |> apply_map(hu2lo)
-    |> List.first()
-    |> elem(0)
+    |> Layer.from_seeds_inputs()
+    |> Layer.compose(map1)
+    |> Layer.compose(map2)
+    |> Layer.compose(map3)
+    |> Layer.compose(map4)
+    |> Layer.compose(map5)
+    |> Layer.compose(map6)
+    |> Layer.compose(map7)
+    |> Layer.transform()
+    |> Layer.min()
+  end
+
+  defp transform_via(value, %Layer{} = map) when is_number(value) do
+    Layer.transform(map, value)
+  end
+
+  defp transform_via(%Layer{} = spans, %Layer{} = map) do
+    spans
+    |> Layer.compose(map)
+    |> Layer.transform()
   end
 
   defp parse_input_lines(input_lines) do
     input_lines
-    |> split_sections()
-    |> then(fn [[se] | tail] -> [Utils.splitrim(se, "seeds: ") | tail] end)
-    |> Enum.map(&parse_sections/1)
-    |> then(fn [head | tail] ->
-      [head | Enum.map(tail, fn segments -> Enum.map(segments, &to_boundaries/1) end)]
-    end)
+    |> chunk_sections()
+    |> then(fn [["seeds: " <> seeds] | maps] -> [[seeds] | maps] end)
+    |> parse_sections()
   end
 
-  defp to_boundaries([s, l]), do: {s, s + l}
-  defp to_boundaries([ds, os, l]), do: {os, os + l, ds - os}
-
-  defp split_sections(input_lines) do
+  defp chunk_sections(input_lines) do
     Enum.chunk_while(
       input_lines,
       [],
@@ -61,57 +210,14 @@ defmodule Y2023.D05 do
     )
   end
 
-  defp parse_sections(lines) do
-    Enum.map(lines, &parse_section/1)
-  end
+  defp parse_sections(sections), do: Enum.map(sections, &parse_section/1)
 
-  defp parse_section(line) do
+  defp parse_section(section), do: Enum.map(section, &parse_line/1)
+
+  defp parse_line(line) do
     line
     |> Utils.splitrim(" ")
     |> Enum.map(&String.to_integer/1)
-  end
-
-  defp find_in_map(to_find, map) do
-    found =
-      Enum.find(
-        map,
-        fn {s, e, _} ->
-          to_find >= s and to_find < e
-        end
-      )
-
-    case found do
-      {_, _, o} -> to_find + o
-      _ -> to_find
-    end
-  end
-
-  defp apply_map(segments, map) do
-    segments
-    |> Enum.flat_map(fn {s, e} ->
-      map
-      |> Enum.map(fn {ms, me, mo} ->
-        cond do
-          Range.disjoint?(s..(e - 1), ms..(me - 1)) -> nil
-          ms <= s and me >= e -> {s, e, mo}
-          ms >= s and me <= e -> {ms, me, mo}
-          ms <= s and me <= e -> {s, me, mo}
-          ms >= s and me >= e -> {ms, e, mo}
-        end
-      end)
-      |> Enum.reject(&is_nil/1)
-      |> Enum.sort_by(&elem(&1, 0))
-      |> Enum.reduce({[], s}, fn
-        {last_end, e, o}, {acc, last_end} ->
-          {acc ++ [{last_end, e, o}], e}
-
-        {s, e, o}, {acc, last_end} ->
-          {acc ++ [{last_end, s, 0}, {s, e, o}], e}
-      end)
-      |> elem(0)
-    end)
-    |> Enum.map(fn {s, e, o} -> {s + o, e + o} end)
-    |> Enum.sort_by(&elem(&1, 0))
   end
 end
 
