@@ -16,12 +16,12 @@ defmodule Y2023.D19 do
 
     conds
     |> Enum.find(fn
-      {field, ">", thresh, _} ->
+      {field, ?>, thresh, _} ->
         part
         |> Map.fetch!(field)
         |> Kernel.>(thresh)
 
-      {field, "<", thresh, _} ->
+      {field, ?<, thresh, _} ->
         part
         |> Map.fetch!(field)
         |> Kernel.<(thresh)
@@ -41,16 +41,16 @@ defmodule Y2023.D19 do
   end
 
   defp score({"R", _}), do: 0
-  defp score({"A", %{"x" => x, "m" => m, "a" => a, "s" => s}}), do: x + m + a + s
+  defp score({"A", %{?x => x, ?m => m, ?a => a, ?s => s}}), do: x + m + a + s
 
   def part2(input) do
     {map, _} = parse_input(input)
 
     combs(map, Map.fetch!(map, "in"), %{
-      "x" => {1, 4001},
-      "m" => {1, 4001},
-      "a" => {1, 4001},
-      "s" => {1, 4001}
+      ?x => {1, 4001},
+      ?m => {1, 4001},
+      ?a => {1, 4001},
+      ?s => {1, 4001}
     })
   end
 
@@ -71,7 +71,7 @@ defmodule Y2023.D19 do
   defp combs(_, "R", _), do: 0
   defp combs(map, key, threshs), do: combs(map, Map.fetch!(map, key), threshs)
 
-  defp split_treshs(threshs, field, "<", thresh) do
+  defp split_treshs(threshs, field, ?<, thresh) do
     new_threshs =
       Map.update!(threshs, field, fn {min, max} ->
         {min, min(max, thresh)}
@@ -85,7 +85,7 @@ defmodule Y2023.D19 do
     {new_threshs, rev_threshs}
   end
 
-  defp split_treshs(threshs, field, ">", thresh) do
+  defp split_treshs(threshs, field, ?>, thresh) do
     new_threshs =
       Map.update!(threshs, field, fn {min, max} ->
         {max(min, thresh + 1), max}
@@ -114,7 +114,7 @@ defmodule Y2023.D19 do
       [solo] ->
         solo
 
-      [<<field::bytes-size(1), op::bytes-size(1), thresh::binary>>, res] ->
+      [<<field, op, thresh::binary>>, res] ->
         {field, op, String.to_integer(thresh), res}
     end)
     |> then(fn [name | conds] -> {name, conds} end)
@@ -124,7 +124,7 @@ defmodule Y2023.D19 do
     input
     |> Utils.splitrim(~r/[{},]/)
     |> Enum.map(&Utils.splitrim(&1, "="))
-    |> Enum.map(fn [field, value] -> {field, String.to_integer(value)} end)
+    |> Enum.map(fn [<<field>>, value] -> {field, String.to_integer(value)} end)
     |> Map.new()
   end
 end

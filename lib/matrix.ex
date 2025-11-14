@@ -12,7 +12,7 @@ defmodule Matrix do
     end
   end
 
-  def to_map(matrix) do
+  def to_xy_map(matrix) do
     height = Enum.count(matrix)
     width = matrix |> Enum.at(0) |> Enum.count()
 
@@ -22,5 +22,16 @@ defmodule Matrix do
        |> Enum.at(y)
        |> Enum.at(x)}
     end
+  end
+
+  def to_rc_map(matrix) do
+    matrix
+    |> Enum.with_index()
+    |> Enum.flat_map(fn {row, r} ->
+      row
+      |> Enum.with_index()
+      |> Enum.map(fn {cell, c} -> {{r, c}, cell} end)
+    end)
+    |> Enum.into(%{})
   end
 end

@@ -4,7 +4,7 @@ defmodule Y2023.D08 do
   def part1(input_list) do
     {steps, map} = parse_input(input_list)
 
-    done? = &(&1 === "ZZZ")
+    done? = &(&1 == "ZZZ")
 
     walk(steps, steps, map, 0, "AAA", done?)
   end

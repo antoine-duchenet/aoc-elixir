@@ -119,7 +119,7 @@ defmodule Y2023.D21 do
 
     size = matrix |> Enum.at(0) |> Enum.count()
 
-    {Matrix.to_map(matrix), size}
+    {Matrix.to_xy_map(matrix), size}
   end
 end
 

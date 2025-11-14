@@ -9,7 +9,6 @@ defmodule Y2023.D12 do
     |> Stream.map(transform)
     |> Stream.map(&how_many?(elem(&1, 0), ".", elem(&1, 1)))
     |> Enum.sum()
-    |> dbg()
   end
 
   defp part1(input) do

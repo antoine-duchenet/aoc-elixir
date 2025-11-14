@@ -17,7 +17,7 @@ defmodule Y2023.D11 do
 
     galaxies =
       list
-      |> Matrix.to_map()
+      |> Matrix.to_xy_map()
       |> Enum.filter(&(elem(&1, 1) == :galaxy))
       |> Enum.map(&elem(&1, 0))
       |> Enum.with_index()

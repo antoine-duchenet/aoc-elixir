@@ -1,5 +1,5 @@
 defmodule Utils do
-  def splitrim(to_split, separator) do
+  def splitrim(to_split, separator \\ "") do
     to_split
     |> String.split(separator, trim: true)
     |> Enum.map(&String.trim/1)

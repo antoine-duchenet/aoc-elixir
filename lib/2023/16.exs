@@ -65,7 +65,7 @@ defmodule Y2023.D16 do
     width = matrix |> Enum.at(0) |> Enum.count()
     height = Enum.count(matrix)
 
-    {Matrix.to_map(matrix), {width, height}}
+    {Matrix.to_xy_map(matrix), {width, height}}
   end
 end
 

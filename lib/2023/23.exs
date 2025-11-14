@@ -99,7 +99,7 @@ defmodule Y2023.D23 do
     ty = height - 1
     tx = matrix |> Enum.at(ty) |> Enum.with_index() |> Enum.find(&(elem(&1, 0) == ".")) |> elem(1)
 
-    {Matrix.to_map(matrix), {sx, sy}, {tx, ty}}
+    {Matrix.to_xy_map(matrix), {sx, sy}, {tx, ty}}
   end
 end
 

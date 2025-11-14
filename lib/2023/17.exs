@@ -198,7 +198,7 @@ defmodule Y2023.D17 do
     width = matrix |> Enum.at(0) |> Enum.count()
     height = Enum.count(matrix)
 
-    {Matrix.to_map(matrix), {width, height}}
+    {Matrix.to_xy_map(matrix), {width, height}}
   end
 
   defp parse_line(line) do
