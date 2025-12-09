@@ -12,4 +12,7 @@ defmodule Math do
   def permutations(list) do
     for(elem <- list, rest <- permutations(list -- [elem]), do: [elem | rest])
   end
+
+  def sqrt(n), do: :math.sqrt(n)
+  def pow(base, exp), do: :math.pow(base, exp)
 end
